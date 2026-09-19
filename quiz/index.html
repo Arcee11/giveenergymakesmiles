@@ -33,7 +33,7 @@
 </div>
 </header><main><section class="section"><div class="wrap">
 <div class="section-head"><span class="eyebrow">Free quiz</span><h1>What Is Your Emotional Reset Style?</h1>
-<p class="lead">Everyone recharges differently. Answer 5 quick questions to discover your reset style, then get a free 30 day challenge calendar made for it, sent straight to your inbox.</p></div>
+<p class="lead">Everyone recharges differently. Answer 5 quick questions to discover your reset style, then add a free 30 day challenge calendar made for it straight to your phone or computer.</p></div>
 <div id="quiz-box" class="quiz-box">
 <p id="quiz-progress" class="quiz-progress" role="status"></p>
 <div id="quiz-q"></div>
@@ -49,15 +49,16 @@
 <form id="quiz-form" class="order-form" novalidate>
 <label>First name<input type="text" name="name" required autocomplete="given-name"></label>
 <label>Email<input type="email" name="email" required autocomplete="email"></label>
-<div class="btn-row"><button class="btn" type="submit">Send My Calendar</button></div>
-<p class="form-note">Your calendar will be sent to your inbox, and you can download it right here too. Occasional helpful emails, no spam, unsubscribe anytime.</p>
+<div class="btn-row"><button class="btn" type="submit">Email Me the Calendar</button></div>
+<p class="form-note">We will email you the link to add the calendar, and you can add it right here too. Occasional helpful emails, no spam, unsubscribe anytime.</p>
 <p class="form-status" id="quiz-status" role="status"></p>
 </form>
 </div>
 <div id="quiz-done" hidden style="margin-top:1.5rem;border-top:1px solid var(--line);padding-top:1.5rem">
-<p class="lead">Your calendar is on its way to <strong id="done-email"></strong>.</p>
+<p class="lead">Your calendar link is on its way to <strong id="done-email"></strong>.</p>
+<p>Add all 30 days to your calendar now. The challenge starts tomorrow.</p>
 <div class="btn-row" style="margin-top:1rem">
-<a class="btn btn-gold" id="calendar-download" href="#" download>Download It Now</a>
+<button class="btn btn-gold" id="calendar-download" type="button">Add to My Calendar</button>
 <a class="btn" href="../contact/">Book a Free Consultation</a>
 </div>
 </div>
@@ -66,6 +67,7 @@
 <script>
 /* CONFIG: quiz lead recipient */
 const QUIZ_ENDPOINT = "https://formsubmit.co/ajax/kayla@goldenopportunity.info";
+const SITE_URL = "https://giveenergymakesmiles.com/quiz/";
 const QUESTIONS = [
   { q: "When stress hits, your first instinct is to…", a: [
     ["Step back and get quiet", "pauser"], ["Get up and move your body", "mover"],
@@ -84,21 +86,144 @@ const QUESTIONS = [
     ["Talking it out", "talker"], ["Writing it down", "writer"] ] },
 ];
 const STYLES = {
-  pauser: { name: "The Pauser", tag: "You reset through stillness.",
-    desc: "When life gets loud, your wisest move is to get quiet. You recharge by turning down the noise and giving your nervous system room to settle.",
-    cal: "The 30-Day Stillness Challenge", pdf: "guides/the-pauser-30-day-challenge.pdf" },
-  mover: { name: "The Mover", tag: "You reset through motion.",
-    desc: "Your body is your pressure valve. You shake off stress physically and think most clearly when you are in motion.",
-    cal: "The 30-Day Motion Challenge", pdf: "guides/the-mover-30-day-challenge.pdf" },
-  talker: { name: "The Talker", tag: "You reset through connection.",
-    desc: "You process out loud. Talking things through with someone you trust untangles what your mind loops on alone.",
-    cal: "The 30-Day Connection Challenge", pdf: "guides/the-talker-30-day-challenge.pdf" },
-  writer: { name: "The Writer", tag: "You reset through words.",
-    desc: "Your clarity lives on the page. You turn swirling thoughts into something solid by getting them out of their head.",
-    cal: "The 30-Day Words Challenge", pdf: "guides/the-writer-30-day-challenge.pdf" },
+  pauser: { name: "The Pauser", tag: "You reset through stillness.", desc: "When life gets loud, your wisest move is to get quiet. You recharge by turning down the noise and giving your nervous system room to settle." },
+  mover: { name: "The Mover", tag: "You reset through motion.", desc: "Your body is your pressure valve. You shake off stress physically and think most clearly when you are in motion." },
+  talker: { name: "The Talker", tag: "You reset through connection.", desc: "You process out loud. Talking things through with someone you trust untangles what your mind loops on alone." },
+  writer: { name: "The Writer", tag: "You reset through words.", desc: "Your clarity lives on the page. You turn swirling thoughts into something solid by getting them out of their head." },
+};
+const CALENDARS = {
+  pauser: { name: "The 30-Day Stillness Challenge", file: "30-day-stillness-challenge.ics", days: [
+    ["90 second settle", "Box breathing: in 4, hold 4, out 4, hold 4."],
+    ["Silent start", "First five minutes of the day, no phone."],
+    ["Name it", "Label one emotion in a single word."],
+    ["Quiet walk", "Ten minutes outside with no audio."],
+    ["Candle minute", "Watch a flame for sixty seconds."],
+    ["Body scan", "Three slow minutes, head to toe."],
+    ["Your favorite", "Repeat the day that helped most."],
+    ["Slow sip", "Drink something warm with full attention."],
+    ["Unclench", "Jaw, shoulders, hands. Three times today."],
+    ["Window sit", "Five quiet minutes looking outside."],
+    ["Bedtime breath", "One minute of closed eye breathing."],
+    ["Silent meal", "Eat one meal with no screens."],
+    ["Hand on heart", "Breathe and repeat: I am safe."],
+    ["Your favorite", "Repeat the day that helped most."],
+    ["Slow seeing", "Notice five things you can see."],
+    ["Floor rest", "Lie on the floor for three minutes."],
+    ["Dim down", "Low lights an hour before bed."],
+    ["One song", "Listen with eyes closed, all the way."],
+    ["Cool wrists", "Cold water on wrists, slow breath."],
+    ["Three lines", "Write three slow lines about today."],
+    ["Your favorite", "Repeat the day that helped most."],
+    ["Bed stretch", "Two gentle minutes before rising."],
+    ["No news day", "Skip the headlines entirely."],
+    ["Barefoot minute", "Feet on grass or floor, breathe."],
+    ["Sky watch", "Five minutes watching the sky."],
+    ["Hum low", "One low hum for a full minute."],
+    ["Early night", "Lights out thirty minutes sooner."],
+    ["Your favorite", "Repeat the day that helped most."],
+    ["Gratitude pause", "Three things, eyes closed."],
+    ["Stillness choice", "Your best practice, ten minutes."],
+  ] },
+  mover: { name: "The 30-Day Motion Challenge", file: "30-day-motion-challenge.ics", days: [
+    ["Shake it off", "Thirty seconds, hands to shoulders."],
+    ["Walk it out", "Ten minutes, no phone."],
+    ["Reach and fold", "Overhead reach, fold, hang heavy."],
+    ["Dance break", "One full song, no choreography."],
+    ["Leg day lite", "Two minutes of stairs or squats."],
+    ["New route", "Walk somewhere new."],
+    ["Your favorite", "Repeat the day that helped most."],
+    ["Pushup ten", "Ten pushups or wall pushups."],
+    ["Marching call", "March in place on a call."],
+    ["Hip opener", "Figure four stretch, each side."],
+    ["One minute wild", "Jumping jacks or jump rope."],
+    ["After dinner walk", "Easy pace, clear head."],
+    ["Carry workout", "Groceries count. Carry with care."],
+    ["Your favorite", "Repeat the day that helped most."],
+    ["Plank 30", "Thirty second plank."],
+    ["Brisk fifteen", "Fifteen minutes, heart pumping."],
+    ["Neck ease", "Ear to shoulder, each side."],
+    ["Long way", "Take the long way everywhere."],
+    ["Hourly squats", "Ten squats every hour."],
+    ["Play twenty", "Swim, run, or play, twenty minutes."],
+    ["Your favorite", "Repeat the day that helped most."],
+    ["Sun walk", "Five morning minutes in sunlight."],
+    ["Calf raises", "While brushing your teeth."],
+    ["Power tidy", "Clean or rearrange one room."],
+    ["Walking call", "Take one call on foot."],
+    ["New stretch", "Learn one stretch from a video."],
+    ["Unwind walk", "Evening walk, slow pace."],
+    ["Your favorite", "Repeat the day that helped most."],
+    ["Final sprint", "Sprint the last block home."],
+    ["Mover's choice", "Your best day, twenty minutes."],
+  ] },
+  talker: { name: "The 30-Day Connection Challenge", file: "30-day-connection-challenge.ics", days: [
+    ["Voice note", "Two unfiltered minutes to yourself."],
+    ["Honest text", "Tell one person today has been a lot."],
+    ["Catch up call", "Call someone just to hear them."],
+    ["Say the need", "Out loud: what I need right now is..."],
+    ["True compliment", "Tell someone something kind and true."],
+    ["Deep listen", "Ask how they are. Just listen."],
+    ["Your favorite", "Repeat the day that helped most."],
+    ["Say it matters", "Tell someone what they mean to you."],
+    ["Join in", "Join one conversation, skip scrolling."],
+    ["Say thanks", "Thank someone who helped lately."],
+    ["One true thing", "Share one real thing about your day."],
+    ["Phone free lunch", "Eat with a friend, phones away."],
+    ["Voice over text", "Send a voice note, not a text."],
+    ["Your favorite", "Repeat the day that helped most."],
+    ["Connect two", "Introduce two people who should meet."],
+    ["Ask for help", "One small ask. Let them in."],
+    ["Tell a story", "Share one story from your week."],
+    ["Check in", "Message someone you miss."],
+    ["Mean good morning", "Say it like you mean it."],
+    ["Share a song", "Send one that matches your mood."],
+    ["Your favorite", "Repeat the day that helped most."],
+    ["Thank you note", "Write one, send it."],
+    ["Call family", "Hear a familiar voice."],
+    ["Simple invite", "Invite someone to something easy."],
+    ["Listen, don't fix", "Let a friend vent fully."],
+    ["Say proud", "Tell someone you are proud of them."],
+    ["Real talk meal", "Share food and honesty."],
+    ["Your favorite", "Repeat the day that helped most."],
+    ["Forgive small", "Name one small thing, let it go."],
+    ["Encore", "Your best day of connection, again."],
+  ] },
+  writer: { name: "The 30-Day Words Challenge", file: "30-day-words-challenge.ics", days: [
+    ["Brain dump", "Three messy minutes on paper."],
+    ["One line intention", "How should today feel?"],
+    ["Unsent letter", "Write what you would say."],
+    ["Five good things", "List what went right."],
+    ["Mood as weather", "Forecast your inner sky."],
+    ["Note to future you", "One paragraph of courage."],
+    ["Your favorite", "Repeat the prompt that helped most."],
+    ["Morning page", "One full page, no editing."],
+    ["Want list", "Ten things you want."],
+    ["Six word memoir", "Today in exactly six words."],
+    ["Safe place", "Describe yours in full detail."],
+    ["Younger you", "Write them a letter."],
+    ["Learning list", "Three things you are learning."],
+    ["Your favorite", "Repeat the prompt that helped most."],
+    ["Worry and answer", "Write the worry, then the answer."],
+    ["Four line poem", "About today. Rhyme optional."],
+    ["Done carrying", "List what you are putting down."],
+    ["Ideal tomorrow", "Write it in present tense."],
+    ["Someone you love", "One page about them."],
+    ["You vs fear", "A dialogue, on paper."],
+    ["Your favorite", "Repeat the prompt that helped most."],
+    ["Good news headline", "Headline your day like good news."],
+    ["Almost affirmations", "Three you almost believe."],
+    ["Small joy", "Describe one precisely."],
+    ["Unsent thanks", "Thank you letter, unsent."],
+    ["Needed advice", "Write what you need to hear."],
+    ["Twenty wins", "Twenty tiny victories."],
+    ["Your favorite", "Repeat the prompt that helped most."],
+    ["Week in review", "Highs, lows, lessons."],
+    ["Writer's choice", "Your best prompt, one full page."],
+  ] },
 };
 const ORDER = ["pauser", "mover", "talker", "writer"];
 let qi = 0;
+let calKey = null;
 const scores = { pauser: 0, mover: 0, talker: 0, writer: 0 };
 const box = document.getElementById("quiz-box");
 const qEl = document.getElementById("quiz-q");
@@ -114,51 +239,95 @@ function renderQ() {
       scores[b.dataset.s]++;
       qi++;
       if (qi < QUESTIONS.length) renderQ();
-      else showResult();
+      else showResult(ORDER.reduce(function (a, b) { return scores[a] >= scores[b] ? a : b; }));
     });
   });
 }
-function showResult() {
-  const winner = ORDER.reduce(function (a, b) { return scores[a] >= scores[b] ? a : b; });
-  const S = STYLES[winner];
+function showResult(key) {
+  calKey = key;
+  const S = STYLES[key], C = CALENDARS[key];
   box.hidden = true;
   document.getElementById("result-name").textContent = S.name;
   document.getElementById("result-tag").textContent = S.tag;
   document.getElementById("result-desc").textContent = S.desc;
-  document.getElementById("cal-title").textContent = "Get your free " + S.cal;
+  document.getElementById("cal-title").textContent = "Get your free " + C.name;
   document.getElementById("cal-blurb").textContent =
-    "Enter your email and we will send you " + S.cal + ", thirty small daily practices built for the way you recharge.";
-  document.getElementById("quiz-form").dataset.style = S.name;
-  document.getElementById("quiz-form").dataset.cal = S.cal;
-  document.getElementById("quiz-form").dataset.pdf = S.pdf;
+    "Enter your email and we will send you the link to add " + C.name +
+    " to your calendar: thirty small daily practices built for the way you recharge, starting tomorrow.";
   const r = document.getElementById("quiz-result");
   r.hidden = false;
   r.scrollIntoView({ behavior: "smooth", block: "start" });
 }
-renderQ();
+function pad(n) { return (n < 10 ? "0" : "") + n; }
+function icsDate(d) { return d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()); }
+function fold(line) {
+  let out = "";
+  while (line.length > 75) { out += line.slice(0, 75) + "\r\n "; line = line.slice(75); }
+  return out + line;
+}
+function esc(s) {
+  return s.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
+}
+function buildICS(key) {
+  const C = CALENDARS[key];
+  const stamp = new Date().toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+  const lines = ["BEGIN:VCALENDAR", "VERSION:2.0",
+    "PRODID:-//Give Energy Make Smiles//Reset Challenge//EN", "CALSCALE:GREGORIAN"];
+  for (let i = 0; i < C.days.length; i++) {
+    const d = new Date();
+    d.setDate(d.getDate() + 1 + i);
+    const title = C.days[i][0], desc = C.days[i][1];
+    lines.push("BEGIN:VEVENT");
+    lines.push("UID:" + key + "-day" + (i + 1) + "@giveenergymakesmiles.com");
+    lines.push("DTSTAMP:" + stamp);
+    lines.push("DTSTART;VALUE=DATE:" + icsDate(d));
+    lines.push("SUMMARY:" + esc("Day " + (i + 1) + ": " + title));
+    lines.push("DESCRIPTION:" + esc(desc + "\n\n" + C.name + " - Give Energy Make Smiles"));
+    lines.push("END:VEVENT");
+  }
+  lines.push("END:VCALENDAR");
+  return lines.map(fold).join("\r\n") + "\r\n";
+}
+function downloadICS() {
+  const C = CALENDARS[calKey];
+  const blob = new Blob([buildICS(calKey)], { type: "text/calendar;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = C.file;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+document.getElementById("calendar-download").addEventListener("click", downloadICS);
+(function () {
+  const preset = new URLSearchParams(location.search).get("style");
+  if (preset && STYLES[preset]) showResult(preset);
+  else renderQ();
+})();
 document.getElementById("quiz-form").addEventListener("submit", async function (e) {
   e.preventDefault();
   const form = e.target, status = document.getElementById("quiz-status");
   const name = form.name.value.trim(), email = form.email.value.trim();
   if (!name || !email) { status.textContent = "Please add your name and email."; status.className = "form-status error"; return; }
-  const style = form.dataset.style, cal = form.dataset.cal, pdf = form.dataset.pdf;
-  status.textContent = "Sending your calendar…"; status.className = "form-status";
+  const S = STYLES[calKey], C = CALENDARS[calKey];
+  status.textContent = "Sending your calendar link…"; status.className = "form-status";
   try {
     const res = await fetch(QUIZ_ENDPOINT, { method: "POST",
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
-      body: JSON.stringify({ name: name, email: email, reset_style: style,
-        fulfillment: "Please email this person their calendar: " + cal,
-        _subject: "New quiz lead: send " + cal }) });
+      body: JSON.stringify({ name: name, email: email, reset_style: S.name,
+        fulfillment: "Please email this person their calendar link: " + SITE_URL + "?style=" + calKey,
+        _subject: "New quiz lead: send " + C.name + " link" }) });
     if (!res.ok) throw new Error("send failed");
-  } catch (err) { /* the download below still delivers the calendar */ }
+  } catch (err) { /* the Add to Calendar button below still delivers it */ }
   document.getElementById("quiz-email").hidden = true;
   document.getElementById("done-email").textContent = email;
-  document.getElementById("calendar-download").href = pdf;
   const d = document.getElementById("quiz-done");
   d.hidden = false;
   d.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 </script>
+
+
 
 <div class="crisis-strip">In crisis? Call or text <a href="tel:988">988</a> anytime for free, confidential support.</div>
 <footer class="site-footer">
