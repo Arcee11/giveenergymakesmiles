@@ -33,7 +33,7 @@
 </div>
 </header><main><section class="section"><div class="wrap">
 <div class="section-head"><span class="eyebrow">Free quiz</span><h1>What Is Your Emotional Reset Style?</h1>
-<p class="lead">Everyone recharges differently. Answer 5 quick questions to discover your reset style, then get a free 7 day challenge calendar made for it, sent straight to your inbox.</p></div>
+<p class="lead">Everyone recharges differently. Answer 5 quick questions to discover your reset style, then get a free 30 day challenge calendar made for it, sent straight to your inbox.</p></div>
 <div id="quiz-box" class="quiz-box">
 <p id="quiz-progress" class="quiz-progress" role="status"></p>
 <div id="quiz-q"></div>
@@ -86,16 +86,16 @@ const QUESTIONS = [
 const STYLES = {
   pauser: { name: "The Pauser", tag: "You reset through stillness.",
     desc: "When life gets loud, your wisest move is to get quiet. You recharge by turning down the noise and giving your nervous system room to settle.",
-    cal: "The 7-Day Stillness Challenge", pdf: "guides/the-pauser-7-day-challenge.pdf" },
+    cal: "The 30-Day Stillness Challenge", pdf: "guides/the-pauser-30-day-challenge.pdf" },
   mover: { name: "The Mover", tag: "You reset through motion.",
     desc: "Your body is your pressure valve. You shake off stress physically and think most clearly when you are in motion.",
-    cal: "The 7-Day Motion Challenge", pdf: "guides/the-mover-7-day-challenge.pdf" },
+    cal: "The 30-Day Motion Challenge", pdf: "guides/the-mover-30-day-challenge.pdf" },
   talker: { name: "The Talker", tag: "You reset through connection.",
     desc: "You process out loud. Talking things through with someone you trust untangles what your mind loops on alone.",
-    cal: "The 7-Day Connection Challenge", pdf: "guides/the-talker-7-day-challenge.pdf" },
+    cal: "The 30-Day Connection Challenge", pdf: "guides/the-talker-30-day-challenge.pdf" },
   writer: { name: "The Writer", tag: "You reset through words.",
     desc: "Your clarity lives on the page. You turn swirling thoughts into something solid by getting them out of their head.",
-    cal: "The 7-Day Words Challenge", pdf: "guides/the-writer-7-day-challenge.pdf" },
+    cal: "The 30-Day Words Challenge", pdf: "guides/the-writer-30-day-challenge.pdf" },
 };
 const ORDER = ["pauser", "mover", "talker", "writer"];
 let qi = 0;
@@ -127,7 +127,7 @@ function showResult() {
   document.getElementById("result-desc").textContent = S.desc;
   document.getElementById("cal-title").textContent = "Get your free " + S.cal;
   document.getElementById("cal-blurb").textContent =
-    "Enter your email and we will send you " + S.cal + ", seven small daily practices built for the way you recharge.";
+    "Enter your email and we will send you " + S.cal + ", thirty small daily practices built for the way you recharge.";
   document.getElementById("quiz-form").dataset.style = S.name;
   document.getElementById("quiz-form").dataset.cal = S.cal;
   document.getElementById("quiz-form").dataset.pdf = S.pdf;
