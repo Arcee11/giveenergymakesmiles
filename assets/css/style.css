@@ -212,3 +212,16 @@ p{margin:0 0 1.1em}
 .form-status.success{color:var(--teal-dark)}
 .form-status.error{color:#b3261e}
 @media (max-width:700px){.product-card img{height:180px}.price-lg{font-size:1.5rem}}
+
+/* ===== Digital Wellness Hub additions ===== */
+.article-link-card img{width:100%;height:170px;object-fit:cover;border-radius:12px;margin-bottom:.8rem}
+.article-link-card h3{font-size:1.02rem;margin:.2rem 0 .8rem}
+.article-link-card h3 a{color:inherit;text-decoration:none}
+.path-card{text-align:center}
+.path-emoji{font-size:2.4rem;margin-bottom:.5rem}
+.path-quote{font-weight:800;color:var(--teal-dark);font-size:1.05rem}
+@media (max-width:700px){.article-link-card img{height:150px}}
+
+/* ===== Responsive video embeds (e.g. YouTube) ===== */
+.video-embed{position:relative;width:100%;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:16px;margin:1.6rem 0;box-shadow:var(--shadow)}
+.video-embed iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
