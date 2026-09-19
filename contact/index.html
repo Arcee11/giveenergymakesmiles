@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Contact &amp; Booking | Give Energy Make Smiles</title>
 <meta name="description" content="Contact Give Energy Make Smiles to book a free consultation for online therapy in Florida and Arizona.">
-<link rel="icon" href="../assets/img/logo.png">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Nunito+Sans:ital,wght@0,400;0,700;0,800;1,400&display=swap" rel="stylesheet">
@@ -32,7 +32,44 @@
 <div class="contact-card"><div class="icon">&#9742;</div><h3>Phone</h3><p><a href="tel:+14079062891">407-906-2891</a></p></div>
 <div class="contact-card"><div class="icon">&#128205;</div><h3>Location</h3><p>Online only<br>Serving Florida &amp; Arizona</p></div>
 </div>
-<div class="notice"><strong>A note on emergencies:</strong> email is not monitored for emergencies. If you are in crisis, call or text <a href="tel:988"><strong>988</strong></a> for free, confidential support 24/7.</div></div></section></main>
+<div class="notice"><strong>A note on emergencies:</strong> email is not monitored for emergencies. If you are in crisis, call or text <a href="tel:988"><strong>988</strong></a> for free, confidential support 24/7.</div><div class="section" style="padding-top:0"><div class="wrap">
+<div class="section-head"><span class="eyebrow">Send a message</span><h2>Prefer to write?</h2><p class="lead">Send a message and I will get back to you within 48 hours. Please do not include sensitive information.</p></div>
+<form id="contact-form" class="order-form" novalidate>
+<label>Full name<input type="text" name="name" required autocomplete="name"></label>
+<label>Email<input type="email" name="email" required autocomplete="email"></label>
+<label>Message<textarea name="message" rows="5" required placeholder="How can I help?"></textarea></label>
+<div class="btn-row"><button class="btn" type="submit">Send Message</button></div>
+<p class="form-status" id="contact-status" role="status"></p>
+</form>
+<script>
+/* CONFIG: contact form recipient. First message triggers a FormSubmit
+   confirmation email to this address; click it once to activate. */
+const CONTACT_FORM_ENDPOINT = "https://formsubmit.co/ajax/kayla@goldenopportunity.info";
+document.getElementById("contact-form").addEventListener("submit", async function (e) {
+  e.preventDefault();
+  const form = e.target, status = document.getElementById("contact-status");
+  const data = { name: form.name.value.trim(), email: form.email.value.trim(),
+    message: form.message.value.trim(), _subject: "New contact form message from the website" };
+  if (!data.name || !data.email || !data.message) {
+    status.textContent = "Please fill in your name, email, and message.";
+    status.className = "form-status error"; return;
+  }
+  status.textContent = "Sending your message..."; status.className = "form-status";
+  try {
+    const res = await fetch(CONTACT_FORM_ENDPOINT, { method: "POST",
+      headers: {"Content-Type": "application/json", "Accept": "application/json"},
+      body: JSON.stringify(data) });
+    if (!res.ok) throw new Error("send failed");
+    status.textContent = "Thank you! Your message was sent. I will reply within 48 hours.";
+    status.className = "form-status success"; form.reset();
+  } catch (err) {
+    status.textContent = "Something went wrong. Please email shawn@giveenergymakesmiles.com directly.";
+    status.className = "form-status error";
+  }
+});
+</script>
+</div></div>
+</div></section></main>
 <div class="crisis-strip">In crisis? Call or text <a href="tel:988">988</a> anytime for free, confidential support.</div>
 <footer class="site-footer">
 <div class="footer-inner">
