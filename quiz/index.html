@@ -49,13 +49,13 @@
 <form id="quiz-form" class="order-form" novalidate>
 <label>First name<input type="text" name="name" required autocomplete="given-name"></label>
 <label>Email<input type="email" name="email" required autocomplete="email"></label>
-<div class="btn-row"><button class="btn" type="submit">Email Me the Calendar</button></div>
-<p class="form-note">We will email you the link to add the calendar, and you can add it right here too. Occasional helpful emails, no spam, unsubscribe anytime.</p>
+<div class="btn-row"><button class="btn" type="submit">Unlock My Calendar</button></div>
+<p class="form-note">Your calendar download unlocks as soon as you submit. Occasional helpful emails, no spam, unsubscribe anytime.</p>
 <p class="form-status" id="quiz-status" role="status"></p>
 </form>
 </div>
 <div id="quiz-done" hidden style="margin-top:1.5rem;border-top:1px solid var(--line);padding-top:1.5rem">
-<p class="lead">Your calendar link is on its way to <strong id="done-email"></strong>.</p>
+<p class="lead">You are on the list, <strong id="done-email"></strong> is confirmed.</p>
 <p>Add all 30 days to your calendar now. The challenge starts tomorrow.</p>
 <div class="btn-row" style="margin-top:1rem">
 <button class="btn btn-gold" id="calendar-download" type="button">Add to My Calendar</button>
@@ -67,7 +67,6 @@
 <script>
 /* CONFIG: quiz lead recipient */
 const QUIZ_ENDPOINT = "https://formsubmit.co/ajax/kayla@goldenopportunity.info";
-const SITE_URL = "https://giveenergymakesmiles.com/quiz/";
 const QUESTIONS = [
   { q: "When stress hits, your first instinct is to…", a: [
     ["Step back and get quiet", "pauser"], ["Get up and move your body", "mover"],
@@ -252,8 +251,8 @@ function showResult(key) {
   document.getElementById("result-desc").textContent = S.desc;
   document.getElementById("cal-title").textContent = "Get your free " + C.name;
   document.getElementById("cal-blurb").textContent =
-    "Enter your email and we will send you the link to add " + C.name +
-    " to your calendar: thirty small daily practices built for the way you recharge, starting tomorrow.";
+    "Enter your email to unlock " + C.name +
+    ": thirty small daily practices built for the way you recharge, starting tomorrow. Your download appears right after you submit.";
   const r = document.getElementById("quiz-result");
   r.hidden = false;
   r.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -310,15 +309,19 @@ document.getElementById("quiz-form").addEventListener("submit", async function (
   const name = form.name.value.trim(), email = form.email.value.trim();
   if (!name || !email) { status.textContent = "Please add your name and email."; status.className = "form-status error"; return; }
   const S = STYLES[calKey], C = CALENDARS[calKey];
-  status.textContent = "Sending your calendar link…"; status.className = "form-status";
+  status.textContent = "Unlocking your calendar…"; status.className = "form-status";
   try {
     const res = await fetch(QUIZ_ENDPOINT, { method: "POST",
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
       body: JSON.stringify({ name: name, email: email, reset_style: S.name,
-        fulfillment: "Please email this person their calendar link: " + SITE_URL + "?style=" + calKey,
-        _subject: "New quiz lead: send " + C.name + " link" }) });
+        calendar: C.name,
+        _subject: "New quiz lead: " + S.name + " (" + C.name + ")" }) });
     if (!res.ok) throw new Error("send failed");
-  } catch (err) { /* the Add to Calendar button below still delivers it */ }
+  } catch (err) {
+    status.textContent = "Something went wrong. Please check your connection and try again.";
+    status.className = "form-status error";
+    return;
+  }
   document.getElementById("quiz-email").hidden = true;
   document.getElementById("done-email").textContent = email;
   const d = document.getElementById("quiz-done");
