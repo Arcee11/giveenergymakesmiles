@@ -28,6 +28,38 @@
 <h1>Blog</h1>
 <p class="lead">Evidence based strategies and resources for understanding, managing and improving emotional health.</p>
 <p>Emotional wellness is the ability to understand, manage and express your feelings in a way that supports your overall mental health and relationships. Here you&#x27;ll find evidence based strategies, practical tools and expert insights designed to help you recognize emotions, cope with life&#x27;s challenges and build resilience.</p>
+<div class="blog-search" style="margin:1.5rem 0 0;max-width:560px">
+<label for="blog-search-input" style="display:block;font-weight:600;margin-bottom:.4rem">Search articles</label>
+<input id="blog-search-input" type="search" placeholder="Try: confidence, stress, boundaries…" autocomplete="off"
+ style="width:100%;padding:.7rem 1rem;border:1px solid #d8cfc0;border-radius:999px;font-size:1rem;background:#fff">
+<p id="blog-search-count" class="form-status" role="status" style="margin-top:.5rem"></p>
+</div>
+<script>
+(function () {
+  const input = document.getElementById('blog-search-input');
+  const count = document.getElementById('blog-search-count');
+  const grid = document.querySelector('.blog-grid');
+  if (!input || !grid) return;
+  const original = grid.innerHTML;
+  let posts = [];
+  fetch('posts.json').then(r => r.json()).then(d => { posts = d; });
+  function card(p) {
+    return '<a class="post-card" href="' + p.url + '"><div class="post-card-body">' +
+      '<span class="date">' + p.date + '</span><h3>' + p.title + '</h3>' +
+      '<p class="excerpt">' + p.excerpt + '</p>' +
+      '<span class="read-more">Read more &rarr;</span></div></a>';
+  }
+  input.addEventListener('input', function () {
+    const q = input.value.trim().toLowerCase();
+    if (q.length < 2) { grid.innerHTML = original; count.textContent = ''; return; }
+    const hits = posts.filter(p => (p.title + ' ' + p.excerpt).toLowerCase().includes(q));
+    grid.innerHTML = hits.map(card).join('');
+    count.textContent = hits.length === 0
+      ? 'No articles match "' + input.value.trim() + '". Try another word.'
+      : hits.length + ' article' + (hits.length === 1 ? '' : 's') + ' found.';
+  });
+})();
+</script>
 <div class="blog-grid" style="margin-top:2rem">
 <a class="post-card" href="../blog/active-listening-skills-exercises-a-complete-guide/">
 <img src="../assets/img/2a8778_9b17349562cd416aaaf521b7fd52b68c.jpg" alt="Active Listening Skills &amp; Exercises: A Complete Guide" loading="lazy">
