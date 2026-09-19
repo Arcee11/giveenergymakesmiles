@@ -189,3 +189,26 @@ p{margin:0 0 1.1em}
   .footer-inner{grid-template-columns:1fr}
   .section{padding:2.2rem 0}
 }
+
+/* ===== Store & Voyager additions ===== */
+.breadcrumb{font-size:.85rem;color:var(--muted);margin-bottom:1rem}
+.breadcrumb a{color:var(--teal-dark);font-weight:700}
+.price{font-size:1.25rem;font-weight:800;color:var(--teal-dark);margin:.4rem 0}
+.price-lg{font-size:1.8rem}
+.kind-note{font-size:.9rem;color:var(--muted);font-style:italic}
+.product-card img{width:100%;height:220px;object-fit:cover;border-radius:12px;margin-bottom:.8rem}
+.product-card h3{font-size:1.05rem;margin:.2rem 0}
+.product-card h3 a{color:inherit;text-decoration:none}
+.product-img{width:100%;max-width:420px;border-radius:20px;box-shadow:var(--shadow)}
+.product-split{align-items:start}
+.product-desc{max-width:62rem;margin-top:2rem}
+.product-desc p{margin-bottom:1rem;line-height:1.7}
+.order-box{margin-top:2.5rem;max-width:62rem}
+.order-form{display:grid;gap:1rem;margin-top:1rem}
+.order-form label{display:grid;gap:.35rem;font-weight:800;font-size:.92rem}
+.order-form input,.order-form textarea{font:inherit;font-weight:400;padding:.7rem .9rem;border:1px solid var(--line);border-radius:10px;background:#fff;width:100%}
+.order-form input:focus,.order-form textarea:focus{outline:2px solid var(--teal);border-color:var(--teal)}
+.form-status{font-weight:700;min-height:1.4em}
+.form-status.success{color:var(--teal-dark)}
+.form-status.error{color:#b3261e}
+@media (max-width:700px){.product-card img{height:180px}.price-lg{font-size:1.5rem}}
