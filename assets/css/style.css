@@ -63,7 +63,7 @@ p{margin:0 0 1.1em}
 .nav-cta:hover{background:#d98f2b!important;color:#fff!important}
 
 /* hero */
-.hero{background:linear-gradient(180deg,var(--bg-soft),var(--bg));padding:3.2rem 0 2.6rem;overflow:hidden}
+.hero{background:linear-gradient(180deg,rgba(255,252,245,.95),rgba(255,252,245,.80)),url('../img/hero-banner.jpg') center/cover no-repeat,var(--bg);padding:3.2rem 0 2.6rem;overflow:hidden}
 .hero-inner{display:grid;grid-template-columns:1.1fr .9fr;gap:2.5rem;align-items:center}
 .hero h1{margin-bottom:.4em}
 .hero h1 .accent{color:var(--teal-dark)}
