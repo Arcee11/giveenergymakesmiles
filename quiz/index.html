@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Is Your Emotional Reset Style? | Give Energy Make Smiles</title>
+<meta name="description" content="Take the free 5 question quiz to discover your emotional reset style and get a personalized reset guide.">
+<link rel="icon" type="image/png" href="../assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Nunito+Sans:ital,wght@0,400;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<style>
+.quiz-box{max-width:640px;margin:2rem auto 0;background:#fff;border:1px solid var(--line);border-radius:24px;padding:2rem;box-shadow:var(--shadow)}
+.quiz-progress{font-size:.85rem;font-weight:700;color:var(--teal-dark);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem}
+.quiz-box h2{margin-bottom:1rem}
+.quiz-opt{display:block;width:100%;text-align:left;margin:.6rem 0;padding:.9rem 1.2rem;border:2px solid var(--line);border-radius:16px;background:var(--bg);font-size:1rem;font-weight:600;color:var(--ink);cursor:pointer;transition:border-color .15s,background .15s}
+.quiz-opt:hover{border-color:var(--teal);background:var(--teal-soft)}
+.form-note{font-size:.85rem;color:var(--muted);margin-top:.8rem}
+</style>
+</head>
+<body><div class="topbar">HSA &amp; FSA Accepted for Sessions &amp; Products!</div>
+<header class="site-header">
+<div class="header-inner">
+<a class="brand" href="../">
+<img src="../assets/img/logo.png" alt="Give Energy Make Smiles logo">
+<span class="brand-text"><strong>Give Energy Make Smiles</strong><span>Online Therapy &middot; Florida &amp; Arizona</span></span>
+</a>
+<button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('.main-nav').classList.toggle('open')"><span></span><span></span><span></span></button>
+<nav class="main-nav"><ul>
+<li><a href="../">Home</a></li><li><a href="../about/">About</a></li><li><a href="../modalities/">Modalities</a></li><li><a href="../conditions/">Conditions</a></li><li><a href="../rates/">Rates</a></li><li><a href="../faq/">FAQ</a></li><li><a href="../testimonials/">Testimonials</a></li><li><a href="../resources/">Resources</a></li><li><a href="../blog/">Blog</a></li><li><a href="../store/">Store</a></li><li><a href="../voyager/">Voyager</a></li><li><a href="../quiz/">Reset Style Quiz</a></li><li><a href="../contact/" class="active">Contact</a></li>
+</ul></nav>
+</div>
+</header><main><section class="section"><div class="wrap">
+<div class="section-head"><span class="eyebrow">Free quiz</span><h1>What Is Your Emotional Reset Style?</h1>
+<p class="lead">Everyone recharges differently. Answer 5 quick questions and we will reveal the reset style that fits you best, plus send you a free personalized reset guide made for it.</p></div>
+<div id="quiz-box" class="quiz-box">
+<p id="quiz-progress" class="quiz-progress" role="status"></p>
+<div id="quiz-q"></div>
+</div>
+<div id="quiz-email" class="quiz-box" hidden>
+<h2>Your result is ready</h2>
+<p class="lead">Where should we send your personalized reset guide?</p>
+<form id="quiz-form" class="order-form" novalidate>
+<label>First name<input type="text" name="name" required autocomplete="given-name"></label>
+<label>Email<input type="email" name="email" required autocomplete="email"></label>
+<div class="btn-row"><button class="btn" type="submit">Send My Guide</button></div>
+<p class="form-note">We will send your guide and occasional helpful emails. No spam, unsubscribe anytime.</p>
+<p class="form-status" id="quiz-status" role="status"></p>
+</form>
+</div>
+<div id="quiz-result" class="quiz-box" hidden>
+<span class="eyebrow">Your reset style</span>
+<h2 id="result-name"></h2>
+<p class="lead" id="result-tag"></p>
+<p id="result-desc"></p>
+<div class="btn-row" style="margin-top:1.25rem">
+<a class="btn btn-gold" id="result-download" href="#" download>Get My Free Reset Guide</a>
+<a class="btn" href="../contact/">Book a Free Consultation</a>
+</div>
+</div>
+</div></section></main>
+<script>
+/* CONFIG: quiz lead recipient */
+const QUIZ_ENDPOINT = "https://formsubmit.co/ajax/kayla@goldenopportunity.info";
+const QUESTIONS = [
+  { q: "When stress hits, your first instinct is to…", a: [
+    ["Step back and get quiet", "pauser"], ["Get up and move your body", "mover"],
+    ["Call or text someone", "talker"], ["Write it out", "writer"] ] },
+  { q: "Your ideal recharge day looks like…", a: [
+    ["A slow quiet morning with no plans", "pauser"], ["A long walk or a good workout", "mover"],
+    ["Coffee and real talk with a friend", "talker"], ["Journaling somewhere cozy", "writer"] ] },
+  { q: "When a big emotion shows up, you…", a: [
+    ["Sit with it until it softens", "pauser"], ["Shake it off physically", "mover"],
+    ["Talk it through out loud", "talker"], ["Put words to it on paper", "writer"] ] },
+  { q: "Which reset sounds best right now?", a: [
+    ["Five slow breaths in silence", "pauser"], ["Ten minutes walking outside", "mover"],
+    ["A genuine conversation", "talker"], ["A full brain dump page", "writer"] ] },
+  { q: "The people who know you best would say you process life by…", a: [
+    ["Reflecting quietly", "pauser"], ["Doing something active", "mover"],
+    ["Talking it out", "talker"], ["Writing it down", "writer"] ] },
+];
+const STYLES = {
+  pauser: { name: "The Pauser", tag: "You reset through stillness.",
+    desc: "When life gets loud, your wisest move is to get quiet. You recharge by turning down the noise and giving your nervous system room to settle. Your free guide walks you through a 90 second reset you can use anywhere.",
+    pdf: "guides/the-pauser-reset.pdf" },
+  mover: { name: "The Mover", tag: "You reset through motion.",
+    desc: "Your body is your pressure valve. You shake off stress physically and think most clearly when you are in motion. Your free guide gives you a simple shake it off routine for hard days.",
+    pdf: "guides/the-mover-reset.pdf" },
+  talker: { name: "The Talker", tag: "You reset through connection.",
+    desc: "You process out loud. Talking things through with someone you trust untangles what your mind loops on alone. Your free guide shows you how to turn any conversation into a reset.",
+    pdf: "guides/the-talker-reset.pdf" },
+  writer: { name: "The Writer", tag: "You reset through words.",
+    desc: "Your clarity lives on the page. You turn swirling thoughts into something solid by getting them out of your head. Your free guide gives you a 3 minute writing reset for overwhelming moments.",
+    pdf: "guides/the-writer-reset.pdf" },
+};
+const ORDER = ["pauser", "mover", "talker", "writer"];
+let qi = 0;
+const scores = { pauser: 0, mover: 0, talker: 0, writer: 0 };
+const box = document.getElementById("quiz-box");
+const qEl = document.getElementById("quiz-q");
+const prog = document.getElementById("quiz-progress");
+function renderQ() {
+  const Q = QUESTIONS[qi];
+  prog.textContent = "Question " + (qi + 1) + " of " + QUESTIONS.length;
+  qEl.innerHTML = "<h2>" + Q.q + "</h2>" + Q.a.map(function (opt, i) {
+    return '<button class="quiz-opt" data-s="' + opt[1] + '">' + opt[0] + "</button>";
+  }).join("");
+  qEl.querySelectorAll(".quiz-opt").forEach(function (b) {
+    b.addEventListener("click", function () {
+      scores[b.dataset.s]++;
+      qi++;
+      if (qi < QUESTIONS.length) renderQ();
+      else { box.hidden = true; document.getElementById("quiz-email").hidden = false; }
+    });
+  });
+}
+renderQ();
+let winner = null;
+document.getElementById("quiz-form").addEventListener("submit", async function (e) {
+  e.preventDefault();
+  const form = e.target, status = document.getElementById("quiz-status");
+  const name = form.name.value.trim(), email = form.email.value.trim();
+  if (!name || !email) { status.textContent = "Please add your name and email."; status.className = "form-status error"; return; }
+  winner = ORDER.reduce(function (a, b) { return scores[a] >= scores[b] ? a : b; });
+  const S = STYLES[winner];
+  status.textContent = "Sending your guide…"; status.className = "form-status";
+  try {
+    const res = await fetch(QUIZ_ENDPOINT, { method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({ name: name, email: email, reset_style: S.name,
+        _subject: "New reset quiz lead: " + S.name }) });
+    if (!res.ok) throw new Error("send failed");
+  } catch (err) { /* still reveal the result; the download is the promise */ }
+  document.getElementById("quiz-email").hidden = true;
+  const r = document.getElementById("quiz-result");
+  document.getElementById("result-name").textContent = S.name;
+  document.getElementById("result-tag").textContent = S.tag;
+  document.getElementById("result-desc").textContent = S.desc;
+  document.getElementById("result-download").href = S.pdf;
+  r.hidden = false;
+  r.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+</script>
+<div class="crisis-strip">In crisis? Call or text <a href="tel:988">988</a> anytime for free, confidential support.</div>
+<footer class="site-footer">
+<div class="footer-inner">
+<div class="footer-brand">
+<h4>Give Energy Make Smiles</h4>
+<p>Online Mental Health Therapy and Counseling Services led by Kayla Luu, LCSW, serving clients online in Florida &amp; Arizona.</p>
+</div>
+<div>
+<h4>Explore</h4>
+<ul><li><a href="../about/">About</a></li><li><a href="../modalities/">Modalities</a></li><li><a href="../conditions/">Conditions</a></li><li><a href="../rates/">Rates</a></li><li><a href="../faq/">FAQ</a></li><li><a href="../testimonials/">Testimonials</a></li><li><a href="../resources/">Resources</a></li><li><a href="../blog/">Blog</a></li><li><a href="../store/">Store</a></li><li><a href="../voyager/">Voyager</a></li><li><a href="../quiz/">Reset Style Quiz</a></li></ul>
+</div>
+<div>
+<h4>Contact</h4>
+<ul>
+<li><a href="mailto:kayla@goldenopportunity.info">kayla@goldenopportunity.info</a></li>
+<li><a href="tel:+14079062891">407-906-2891</a></li>
+<li>Online only &middot; Florida &amp; Arizona</li>
+<li><a href="../privacy/">Privacy Policy</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">&copy; 2026 Give Energy Make Smiles LLC. All rights reserved.</div>
+</footer>
+</body>
+</html>
