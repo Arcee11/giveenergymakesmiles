@@ -250,3 +250,18 @@ section.collapsible.open .section-head.toggle::after{transform:translateY(-30%) 
 .section-body{display:grid;grid-template-rows:1fr;transition:grid-template-rows .45s ease}
 section.collapsible:not(.open) .section-body{grid-template-rows:0fr}
 .section-body-inner{overflow:hidden;min-height:0}
+
+/* testimonial carousel */
+.t-carousel{margin-top:2rem}
+.t-slide{display:none}
+.t-slide.active{display:block;animation:tFade .4s ease}
+@keyframes tFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.t-slide .testimonial{margin-bottom:0}
+.t-nav{display:flex;align-items:center;gap:.8rem;margin-top:1.2rem}
+.t-arrow{flex:0 0 auto;width:2.6rem;height:2.6rem;border-radius:50%;border:1px solid var(--line);background:var(--card);font-size:1.2rem;line-height:1;cursor:pointer;color:var(--ink)}
+.t-arrow:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
+.t-dots{flex:1;display:flex;gap:.45rem;overflow-x:auto;padding:.5rem .1rem;scrollbar-width:none}
+.t-dots::-webkit-scrollbar{display:none}
+.t-dot{flex:0 0 auto;width:.72rem;height:.72rem;border-radius:50%;border:1px solid var(--gold);background:transparent;cursor:pointer;padding:0}
+.t-dot.on{background:var(--gold)}
+.t-count{text-align:center;color:var(--muted);font-size:.9rem;margin-top:.4rem}

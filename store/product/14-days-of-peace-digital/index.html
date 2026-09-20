@@ -58,7 +58,7 @@
 <form id="order-form" class="order-form" novalidate>
 <label>Full name<input type="text" name="name" required autocomplete="name"></label>
 <label>Email<input type="email" name="email" required autocomplete="email"></label>
-<label>Shipping address<textarea name="address" rows="3" required autocomplete="street-address" placeholder="Street, city, state, ZIP"></textarea></label>
+<label>Shipping address (optional)<textarea name="address" rows="3" autocomplete="street-address" placeholder="Street, city, state, ZIP"></textarea></label>
 <input type="hidden" name="product" value="14 Days of Peace (Digital) ($11.00)">
 <label>Quantity<input type="number" name="quantity" min="1" value="1" required></label>
 <label>Notes (optional)<textarea name="notes" rows="3" placeholder="Anything we should know about your order"></textarea></label>
@@ -87,8 +87,8 @@ document.getElementById("order-form").addEventListener("submit", async function 
     notes: form.notes.value.trim(),
     _subject: "New store order request: " + form.product.value
   };
-  if (!data.name || !data.email || !data.address) {
-    status.textContent = "Please fill in your name, email, and shipping address.";
+  if (!data.name || !data.email) {
+    status.textContent = "Please fill in your name and email.";
     status.className = "form-status error"; return;
   }
   status.textContent = "Sending your order request...";
