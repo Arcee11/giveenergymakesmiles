@@ -276,8 +276,15 @@ function fold(line) {
 function esc(s) {
   return s.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
 }
+function siteBase() {
+  // Derive the site root from the quiz page's own URL so calendar links always
+  // match wherever the site is served (GitHub Pages preview or custom domain).
+  var p = window.location.pathname.replace(/\/index\.html$/, "").replace(/\/quiz\/?$/, "");
+  return window.location.origin + p;
+}
 function buildICS(key) {
   const C = CALENDARS[key];
+  const base = siteBase();
   const stamp = new Date().toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
   const lines = ["BEGIN:VCALENDAR", "VERSION:2.0",
     "PRODID:-//Give Energy Make Smiles//Reset Challenge//EN", "CALSCALE:GREGORIAN"];
@@ -285,14 +292,15 @@ function buildICS(key) {
     const d = new Date();
     d.setDate(d.getDate() + 1 + i);
     const title = C.days[i][0], desc = C.days[i][1], url = C.days[i][2];
+    const fullUrl = url.replace(/^https:\/\/www\.giveenergymakesmiles\.com/, base);
     const linkLabel = url.indexOf("/blog/") !== -1 ? "Go deeper: " : "Want live support? Book a free 15-minute consultation: ";
     lines.push("BEGIN:VEVENT");
     lines.push("UID:" + key + "-day" + (i + 1) + "@giveenergymakesmiles.com");
     lines.push("DTSTAMP:" + stamp);
     lines.push("DTSTART;VALUE=DATE:" + icsDate(d));
     lines.push("SUMMARY:" + esc("Day " + (i + 1) + ": " + title));
-    lines.push("DESCRIPTION:" + esc("Today's practice: " + desc + "\n\n" + linkLabel + url +
-      "\nYour challenge home: https://www.giveenergymakesmiles.com/quiz/" + "\n\n" + C.name + " - Give Energy Make Smiles"));
+    lines.push("DESCRIPTION:" + esc("Today's practice: " + desc + "\n\n" + linkLabel + fullUrl +
+      "\nYour challenge home: " + base + "/quiz/" + "\n\n" + C.name + " - Give Energy Make Smiles"));
     lines.push("END:VEVENT");
   }
   lines.push("END:VCALENDAR");
